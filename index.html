@@ -149,6 +149,14 @@ input{
     </div>
   </div>
 
+ <label for="sqa">Socio:</label><br>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" id="sqa" name="sqa">
+    <div class="input-group-append">
+      <button class="btn btn-primary" id="botaoCopiar" style="width:90px;" onclick="copyToClipboard('sqa')">Copiar</button>
+    </div>
+  </div>
+  
   <label for="natureza_juridica">Natureza Jurídica:</label><br>
   <div class="input-group mb-3">
     <input type="text" class="form-control" id="natureza_juridica" name="natureza_juridica">
@@ -301,6 +309,7 @@ function updateFields() {
     natureza_juridica = document.getElementById('natureza_juridica').value = dataObject.natureza_juridica;
     atividade_principal = document.getElementById('atividade_principal').value = dataObject.atividade_principal[0].text;
     atividades_secundarias = document.getElementById('atividades_secundarias').value = dataObject.atividades_secundarias[0].text;
+    sqa = document.getElementById('sqa').value = dataObject.sqa[0].text;  
     logradouro = document.getElementById('logradouro').value = dataObject.logradouro;
     numero = document.getElementById('numero').value = dataObject.numero;
     municipio = document.getElementById('municipio').value = dataObject.municipio;
