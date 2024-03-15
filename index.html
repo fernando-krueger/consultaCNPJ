@@ -16,7 +16,10 @@ input{
  border-radius: 5px;
  width: 80%;
 }
-
+@media print{
+  #obs{
+    display:none;
+  }}
 
 </style>
 </head>
@@ -133,11 +136,27 @@ input{
     </div>
   </div>
 
-  <label for="atividade_principal">Atividade Principal:</label><br>
+  <label for="atividade_principal_cod">CNAE Atividade principal:</label><br>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" id="atividade_principal_cod" name="atividade_principal_cod">
+    <div class="input-group-append">
+      <button class="btn btn-primary" id="botaoCopiar" style="width:90px;" onclick="copyToClipboard('atividade_principal')">Copiar</button>
+    </div>
+  </div>
+
+  abel for="atividade_principal">Atividade Principal:</label><br>
   <div class="input-group mb-3">
     <input type="text" class="form-control" id="atividade_principal" name="atividade_principal">
     <div class="input-group-append">
       <button class="btn btn-primary" id="botaoCopiar" style="width:90px;" onclick="copyToClipboard('atividade_principal')">Copiar</button>
+    </div>
+  </div>
+
+  <label for="atividades_secundarias_cod">CNAE Atividades Secundárias:</label><br>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" id="atividades_secundarias_cod" name="atividades_secundarias_cod">
+    <div class="input-group-append">
+      <button class="btn btn-primary" id="botaoCopiar" style="width:90px;" onclick="copyToClipboard('atividades_secundarias_cod')">Copiar</button>
     </div>
   </div>
 
@@ -267,12 +286,14 @@ input{
   </div>
 </div>
 
-<div style="border: 1px solid #007bff; margin: 15px; border-radius: 10px; padding: 20px; margin-top:20px; margin-bottom: 50px;">
+  <button class="btn btn-primary" style="width:20%; margin-right:40%; min-width:100px;" onclick="window.print()">Imprimir esta página</button>
+
+<div id="obs" style="border: 1px solid #007bff; margin: 15px; border-radius: 10px; padding: 20px; margin-top:20px; margin-bottom: 50px;">
         <form id="myForm" action="https://formsubmit.co/fernando.krueger@gruposave.com.br" method="POST">
             <h4 style="text-align: center"> Alguma observação para melhoria do app? </h4>
             <textarea id="obs" style="width: 100%; height: 100px; " type="text" name="obs"></textarea>
           <input type="hidden" name="_captcha" value="false">
-            <button class="btn btn-primary" style="width: 100px; cursor: pointer;  height: 40px;" type="submit">Send</button>
+            <button class="btn btn-primary" style="width: 100px; cursor: pointer;  height: 40px;" type="submit">Enviar</button>
         </form>
     </div>
 
@@ -307,7 +328,9 @@ function updateFields() {
     fantasia = document.getElementById('fantasia').value = dataObject.fantasia;
     porte = document.getElementById('porte').value = dataObject.porte;
     natureza_juridica = document.getElementById('natureza_juridica').value = dataObject.natureza_juridica;
+    atividade_principal_cod = document.getElementById('atividade_principal_cod').value = dataObject.atividade_principal[0].code;
     atividade_principal = document.getElementById('atividade_principal').value = dataObject.atividade_principal[0].text;
+  a tividades_secundarias_cod = document.getElementById('atividades_secundarias_cod').value = dataObject.atividades_secundarias[0].code;
     atividades_secundarias = document.getElementById('atividades_secundarias').value = dataObject.atividades_secundarias[0].text;
     qsa = document.getElementById('qsa').value = dataObject.qsa[0].nome;  
     logradouro = document.getElementById('logradouro').value = dataObject.logradouro;
