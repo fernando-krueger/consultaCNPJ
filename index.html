@@ -2,6 +2,8 @@
 <html>
 <head>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <style>
@@ -16,6 +18,12 @@ input{
  border-radius: 5px;
  width: 80%;
 }
+
+.not-available {
+    color: red;
+    /* Adicione aqui qualquer outra estilização desejada para campos não disponíveis */
+}
+
 @media print{
   #obs{
     display:none;
@@ -309,7 +317,8 @@ input{
 
 <script type="text/javascript">
 
- function checkCnpj(cnpj) {
+ // Função para verificar o CNPJ
+function checkCnpj(cnpj) {
     $.ajax({
         url: 'https://www.receitaws.com.br/v1/cnpj/' + cnpj.replace(/\D/g, ''),
         type: "GET",
@@ -319,71 +328,79 @@ input{
                 alert(data.status + ' esse CNPJ não existe ' + data.message);
             } else {
                 dataObject = data; // Armazena as informações recuperadas no objeto
-                updateFields(); // Atualiza os campos na tela
+                atualizarCampos(); // Atualiza os campos na tela
             }
         }
     });
 }
 
-
-function updateFields() {
-    // Armazena o valor de cada campo na variável correspondente
-    nome = document.getElementById('nome').value = dataObject.nome;
-    abertura = document.getElementById('abertura').value = dataObject.abertura;
-    situacao = document.getElementById('situacao').value = dataObject.situacao;
-    tipo = document.getElementById('tipo').value = dataObject.tipo;
-    fantasia = document.getElementById('fantasia').value = dataObject.fantasia;
-    porte = document.getElementById('porte').value = dataObject.porte;
-    natureza_juridica = document.getElementById('natureza_juridica').value = dataObject.natureza_juridica;
-    atividade_principal_cod = document.getElementById('atividade_principal_cod').value = dataObject.atividade_principal[0].code;
-    atividade_principal = document.getElementById('atividade_principal').value = dataObject.atividade_principal[0].text;
-    atividades_secundarias_cod = document.getElementById('atividades_secundarias_cod').value = dataObject.atividades_secundarias[0].code;
-    atividades_secundarias = document.getElementById('atividades_secundarias').value = dataObject.atividades_secundarias[0].text;
-    qsa = document.getElementById('qsa').value = dataObject.qsa[0].nome;  
-    logradouro = document.getElementById('logradouro').value = dataObject.logradouro;
-    numero = document.getElementById('numero').value = dataObject.numero;
-    municipio = document.getElementById('municipio').value = dataObject.municipio;
-    bairro = document.getElementById('bairro').value = dataObject.bairro;
-    uf = document.getElementById('uf').value = dataObject.uf;
-    cep = document.getElementById('cep').value = dataObject.cep;
-    email = document.getElementById('email').value = dataObject.email;
-    telefone = document.getElementById('telefone').value = dataObject.telefone;
-    data_situacao = document.getElementById('data_situacao').value = dataObject.data_situacao;
-    cnpj = document.getElementById('cnpj').value = dataObject.cnpj;
-    ultima_atualizacao = document.getElementById('ultima_atualizacao').value = dataObject.ultima_atualizacao;
-    status = document.getElementById('status').value = dataObject.status;
-    complemento = document.getElementById('complemento').value = dataObject.complemento;
-    efr = document.getElementById('efr').value = dataObject.efr;
-    motivo_situacao = document.getElementById('motivo_situacao').value = dataObject.motivo_situacao;
-    situacao_especial = document.getElementById('situacao_especial').value = dataObject.situacao_especial;
-    data_situacao_especial = document.getElementById('data_situacao_especial').value = dataObject.data_situacao_especial;
-    capital_social = document.getElementById('capital_social').value = dataObject.capital_social;
+// Função para atualizar os campos e adicionar a classe not-available se a informação estiver vazia ou indefinida
+function atualizarCampo(id, valor) {
+    var campo = document.getElementById(id);
+    if (!valor || valor.trim() === "") {
+        campo.value = "Não informado";
+        campo.style.color = "red";
+        campo.classList.add("not-available");
+    } else {
+        campo.value = valor;
+        campo.style.color = ""; // Remove qualquer cor definida anteriormente
+        campo.classList.remove("not-available");
+    }
 }
 
+// Função para atualizar todos os campos
+function atualizarCampos() {
+    // Atualiza cada campo individualmente
+    atualizarCampo('nome', dataObject.nome);
+    atualizarCampo('abertura', dataObject.abertura);
+    atualizarCampo('situacao', dataObject.situacao);
+    atualizarCampo('tipo', dataObject.tipo);
+    atualizarCampo('fantasia', dataObject.fantasia);
+    atualizarCampo('porte', dataObject.porte);
+    atualizarCampo('natureza_juridica', dataObject.natureza_juridica);
+    atualizarCampo('atividade_principal_cod', (dataObject.atividade_principal && dataObject.atividade_principal.length > 0) ? dataObject.atividade_principal[0].code : "");
+    atualizarCampo('atividade_principal', (dataObject.atividade_principal && dataObject.atividade_principal.length > 0) ? dataObject.atividade_principal[0].text : "");
+    atualizarCampo('atividades_secundarias_cod', (dataObject.atividades_secundarias && dataObject.atividades_secundarias.length > 0) ? dataObject.atividades_secundarias[0].code : "");
+    atualizarCampo('atividades_secundarias', (dataObject.atividades_secundarias && dataObject.atividades_secundarias.length > 0) ? dataObject.atividades_secundarias[0].text : "");
+    atualizarCampo('qsa', (dataObject.qsa && dataObject.qsa.length > 0) ? dataObject.qsa[0].nome : "");
+    atualizarCampo('logradouro', dataObject.logradouro);
+    atualizarCampo('numero', dataObject.numero);
+    atualizarCampo('municipio', dataObject.municipio);
+    atualizarCampo('bairro', dataObject.bairro);
+    atualizarCampo('uf', dataObject.uf);
+    atualizarCampo('cep', dataObject.cep);
+    atualizarCampo('email', dataObject.email);
+    atualizarCampo('telefone', dataObject.telefone);
+    atualizarCampo('data_situacao', dataObject.data_situacao);
+    atualizarCampo('cnpj', dataObject.cnpj);
+    atualizarCampo('ultima_atualizacao', dataObject.ultima_atualizacao);
+    atualizarCampo('status', dataObject.status);
+    atualizarCampo('complemento', dataObject.complemento);
+    atualizarCampo('efr', dataObject.efr);
+    atualizarCampo('motivo_situacao', dataObject.motivo_situacao);
+    atualizarCampo('situacao_especial', dataObject.situacao_especial);
+    atualizarCampo('data_situacao_especial', dataObject.data_situacao_especial);
+    atualizarCampo('capital_social', dataObject.capital_social);
+}
+
+// Função para copiar o conteúdo do input para a área de transferência
 function copyToClipboard(inputId) {
-       event.preventDefault();
-        var input = document.getElementById(inputId);
-        input.select();
-        input.setSelectionRange(0, 99999);
-        document.execCommand("copy");
-        
+    event.preventDefault();
+    var input = document.getElementById(inputId);
+    input.select();
+    input.setSelectionRange(0, 99999);
+    document.execCommand("copy");
 
-        var botao = event.target; // Obtém o botão clicado
-      botao.textContent = 'Copiado!';
+    var botao = event.target; // Obtém o botão clicado
+    botao.textContent = 'Copiado!';
 
-
-      setTimeout(function() {
+    setTimeout(function() {
         botao.textContent = 'Copiar';
-      }, 2500); // 0.3 segundos
-    }
-    
-
-
-
+    }, 2500); // 2.5 segundos
+}
 
 
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
 </html>
