@@ -88,7 +88,7 @@ input{
 
 <label for="CNPJ">CNPJ:</label><br>
 <div class="input-group mb-3">
-  <input placeholder="Digite aqui seu CNPJ..."  type="text" class="form-control" id="cnpj" name="cnpj" data-mask="00.000.000/0000-00" oninput="stopAnimation()" onkeypress="return onlyNumberKey(event)">
+  <input placeholder="Digite aqui seu CNPJ..."  type="text" class="form-control" id="cnpj" name="cnpj" data-mask="00.000.000/0000-00" oninput="stopAnimation()" onkeypress="return onlyNumberKey(event)" onblur="checkCnpj()">
    <div class="input-group-append">
   <button class="btn btn-primary" id="botaopesquisar" style="width:90px;" onclick="checkCnpj()">Pesquisar</button><br>
    </div>
